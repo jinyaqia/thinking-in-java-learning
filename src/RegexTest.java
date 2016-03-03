@@ -24,6 +24,7 @@ public class RegexTest {
 		}
 		
 		String text = "@jinya恰 this is 天";
+		//匹配汉字和英文字符
 		Pattern p = Pattern.compile("(@[\u4e00-\u9fa5a-zA-Z0-9]+)");
 		Matcher matcher = p.matcher(text);
 		while(matcher.find()){

@@ -6,41 +6,29 @@ import java.util.regex.Pattern;
 
 public class ShowMethods {
 
-	private static String usage = "usage" + "showMethods qualified.class.name\n" + "To show all methods in class or:\n"
-			+ "showMethods qualified.class.name word\n" + "To search for methods involving 'word'";
-	private static Pattern p = Pattern.compile("\\w+\\.");
-
+	private static Pattern p = Pattern.compile("\\w+\\.|final|native");
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		if (args.length < 1) {
-			System.out.println(usage);
-			System.exit(0);
-		}
 		int lines = 0;
 		try {
-			Class<?> c = Class.forName(args[0]);
+			//获取类
+			Class<?> c = Class.forName("type_and_reflect.MyAbstraceClass");
+			//获取类方法
 			Method[] methods = c.getMethods();
+			//获取构造函数
 			Constructor<?>[] ctors = c.getConstructors();
-			if (args.length == 1) {
-				for (Method method : methods)
-					System.out.println(p.matcher(method.toString()));
-				for (Constructor<?> cotr : ctors)
-					System.out.println(p.matcher(cotr.toString()));
-				lines = methods.length + ctors.length;
-			} else {
-				for (Method method : methods)
-					if (method.toString().indexOf(args[1]) != -1) {
-						System.out.println(method.toString());
-						lines++;
-					}
+			
+			for (Method method : methods) {
+				
+				System.out.println(p.matcher(method.toString()).replaceAll(""));
+				System.out.println(method);
+				System.out.println();
 			}
-			for (Constructor<?> ctor : ctors)
-				if (ctor.toString().indexOf(args[1]) != -1) {
-					System.out.println(p.matcher(ctor.toString()).replaceAll(""));
-					lines++;
-				}
+			for (Constructor<?> cotr : ctors)
+				System.out.println(cotr);
+			lines = methods.length + ctors.length;
 		} catch (ClassNotFoundException e) {
 			System.out.println("No such class" + e);
 		}
